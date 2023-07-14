@@ -52,14 +52,14 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: Column(
           children: [
             Text(
               _timeFormat(_remainSeconds),
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
                 fontSize: Sizes.size96,
                 fontWeight: FontWeight.w600,
               ),
@@ -67,7 +67,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
             Center(
               child: IconButton(
                 iconSize: Sizes.size96 + Sizes.size24,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.primary,
                 onPressed: _isRunning ? _onPausePressed : _onStartPressed,
                 icon: Icon(_isRunning
                     ? Icons.pause_circle_outline
