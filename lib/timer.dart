@@ -44,6 +44,14 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     });
   }
 
+  void _onResetPressed() {
+    setState(() {
+      _timer.cancel();
+      _isRunning = false;
+      _remainSeconds = _defaultSeconds;
+    });
+  }
+
   String _timeFormat(int seconds) {
     var duration = Duration(seconds: seconds);
     return duration.toString().split(".").first.substring(2, 7);
@@ -64,15 +72,26 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            Center(
-              child: IconButton(
-                iconSize: Sizes.size96 + Sizes.size24,
-                color: Theme.of(context).colorScheme.primary,
-                onPressed: _isRunning ? _onPausePressed : _onStartPressed,
-                icon: Icon(_isRunning
-                    ? Icons.pause_circle_outline
-                    : Icons.play_circle_outline),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  iconSize: Sizes.size96 + Sizes.size24,
+                  color: Theme.of(context).colorScheme.primary,
+                  onPressed: _isRunning ? _onPausePressed : _onStartPressed,
+                  icon: Icon(_isRunning
+                      ? Icons.pause_circle_outline
+                      : Icons.play_circle_outline),
+                ),
+                IconButton(
+                  iconSize: Sizes.size96 + Sizes.size24,
+                  color: Theme.of(context).colorScheme.primary,
+                  onPressed: _onResetPressed,
+                  icon: const Icon(
+                    Icons.replay_rounded,
+                  ),
+                )
+              ],
             ),
           ],
         ),
