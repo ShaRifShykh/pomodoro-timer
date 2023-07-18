@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pomodoro/constants/sizes.dart';
-import 'package:pomodoro/utilities/timer_utile.dart';
-import 'package:pomodoro/widgets/timer_title.dart';
+import 'package:pomodoro/utilities/timer_util.dart';
+import 'package:pomodoro/widgets/timer_header.dart';
 
 class PomodoroTimer extends StatefulWidget {
   const PomodoroTimer({super.key});
