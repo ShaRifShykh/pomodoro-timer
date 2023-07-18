@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro/theme.dart';
-import 'package:pomodoro/timer.dart';
+import 'package:pomodoro/screens/timer.dart';
 
 void main() {
   runApp(const Pomodoro());

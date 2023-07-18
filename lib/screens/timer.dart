@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pomodoro/constants/sizes.dart';
+import 'package:pomodoro/utilities/timer_utile.dart';
+import 'package:pomodoro/widgets/timer_title.dart';
 
 class PomodoroTimer extends StatefulWidget {
   const PomodoroTimer({super.key});
@@ -11,21 +13,31 @@ class PomodoroTimer extends StatefulWidget {
 }
 
 class _PomodoroTimerState extends State<PomodoroTimer> {
-  static const _defaultSeconds = 1500;
-  int _remainSeconds = _defaultSeconds;
+  static const _defaultWorkSeconds = 1500;
+  static const _defaultRestSeconds = 300;
+  int _remainWorkSeconds = _defaultWorkSeconds;
+  int _remainRestSeconds = _defaultRestSeconds;
   bool _isRunning = false;
+  bool _isResting = false;
   late Timer _timer;
 
   void _onTick(Timer timer) {
-    if (_remainSeconds == 0) {
-      setState(() {
-        _isRunning = false;
-        _remainSeconds = _defaultSeconds;
-      });
-      timer.cancel();
+    if (_remainWorkSeconds == 0) {
+      if (_remainRestSeconds != 0) {
+        setState(() {
+          _isResting = true;
+          _remainRestSeconds = _remainRestSeconds - 1;
+        });
+      } else {
+        setState(() {
+          _isResting = false;
+          _remainWorkSeconds = _defaultWorkSeconds;
+          _remainRestSeconds = _defaultRestSeconds;
+        });
+      }
     } else {
       setState(() {
-        _remainSeconds = _remainSeconds - 1;
+        _remainWorkSeconds = _remainWorkSeconds - 1;
       });
     }
   }
@@ -48,13 +60,10 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     setState(() {
       _timer.cancel();
       _isRunning = false;
-      _remainSeconds = _defaultSeconds;
+      _isResting = false;
+      _remainWorkSeconds = _defaultWorkSeconds;
+      _remainRestSeconds = _defaultRestSeconds;
     });
-  }
-
-  String _timeFormat(int seconds) {
-    var duration = Duration(seconds: seconds);
-    return duration.toString().split(".").first.substring(2, 7);
   }
 
   @override
@@ -64,8 +73,10 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
       body: SafeArea(
         child: Column(
           children: [
+            if (_isResting) const TimerTitle(text: "Resting"),
+            if (!_isResting) const TimerTitle(text: "Running"),
             Text(
-              _timeFormat(_remainSeconds),
+              timeFormat(_isResting ? _remainRestSeconds : _remainWorkSeconds),
               style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
                 fontSize: Sizes.size96,
@@ -83,14 +94,15 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                       ? Icons.pause_circle_outline
                       : Icons.play_circle_outline),
                 ),
-                IconButton(
-                  iconSize: Sizes.size96 + Sizes.size24,
-                  color: Theme.of(context).colorScheme.primary,
-                  onPressed: _onResetPressed,
-                  icon: const Icon(
-                    Icons.replay_rounded,
-                  ),
-                )
+                if (!_isResting)
+                  IconButton(
+                    iconSize: Sizes.size96 + Sizes.size24,
+                    color: Theme.of(context).colorScheme.primary,
+                    onPressed: _onResetPressed,
+                    icon: const Icon(
+                      Icons.replay_rounded,
+                    ),
+                  )
               ],
             ),
           ],
