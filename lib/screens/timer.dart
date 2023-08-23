@@ -13,10 +13,12 @@ class PomodoroTimer extends StatefulWidget {
 }
 
 class _PomodoroTimerState extends State<PomodoroTimer> {
-  static const _defaultWorkSeconds = 1500;
-  static const _defaultRestSeconds = 300;
+  static const _defaultWorkSeconds = 3;
+  static const _defaultRestSeconds = 3;
+  static const _defaultPomodoroCount = 0;
   int _remainWorkSeconds = _defaultWorkSeconds;
   int _remainRestSeconds = _defaultRestSeconds;
+  int _totalPomodoroCount = _defaultPomodoroCount;
   bool _isRunning = false;
   bool _isResting = false;
   late Timer _timer;
@@ -25,6 +27,9 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     if (_remainWorkSeconds == 0) {
       if (_remainRestSeconds != 0) {
         setState(() {
+          if (!_isResting) {
+            _totalPomodoroCount = _totalPomodoroCount + 1;
+          }
           _isResting = true;
           _remainRestSeconds = _remainRestSeconds - 1;
         });
@@ -63,6 +68,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
       _isResting = false;
       _remainWorkSeconds = _defaultWorkSeconds;
       _remainRestSeconds = _defaultRestSeconds;
+      _totalPomodoroCount = _defaultPomodoroCount;
     });
   }
 
@@ -80,6 +86,14 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
               style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
                 fontSize: Sizes.size96,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              "Pomodoro Count: ${pomodoroCountFormat(_totalPomodoroCount)}",
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: Sizes.size36,
                 fontWeight: FontWeight.w600,
               ),
             ),
