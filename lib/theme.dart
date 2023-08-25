@@ -11,7 +11,7 @@ class ThemeClass {
       onSecondary: Color(0xFFEAEAEA),
       error: Color(0xFFF32424),
       onError: Color(0xFFF32424),
-      background: Colors.lightGreenAccent,
+      background: Colors.white,
       onBackground: Color(0xFFFFFFFF),
       surface: Color(0xFF54B435),
       onSurface: Color(0xFF54B435),
