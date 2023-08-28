@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro/constants/sizes.dart';
 import 'package:pomodoro/models/timer_model.dart';
+import 'package:pomodoro/screens/settings_page.dart';
 import 'package:pomodoro/utilities/timer_util.dart';
-import 'package:pomodoro/widgets/timer_header.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,14 +14,34 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        actions: [
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const SettingPage(),
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.settings,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: Sizes.size32,
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
       body: Consumer<TimerModel>(
         builder: (context, timer, child) {
           return SafeArea(
             child: Column(
               children: [
-                timer.isResting
-                    ? const TimerTitle(text: "Resting")
-                    : const TimerTitle(text: "Running"),
                 Text(
                   timeFormat(timer.isResting
                       ? timer.remainRestSeconds
