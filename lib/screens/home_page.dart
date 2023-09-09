@@ -3,6 +3,7 @@ import 'package:pomodoro/constants/sizes.dart';
 import 'package:pomodoro/models/timer_model.dart';
 import 'package:pomodoro/screens/settings_page.dart';
 import 'package:pomodoro/utilities/timer_util.dart';
+import 'package:pomodoro/widgets/reset_button.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -73,15 +74,7 @@ class HomePage extends StatelessWidget {
                           ? Icons.pause_circle_outline
                           : Icons.play_circle_outline),
                     ),
-                    IconButton(
-                      iconSize: Sizes.size96 + Sizes.size24,
-                      color: Theme.of(context).colorScheme.primary,
-                      onPressed: () =>
-                          context.read<TimerModel>().onResetPressed(),
-                      icon: const Icon(
-                        Icons.replay_rounded,
-                      ),
-                    )
+                    const ResetButton()
                   ],
                 ),
               ],
