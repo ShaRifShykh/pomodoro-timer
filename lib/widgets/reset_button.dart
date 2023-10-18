@@ -8,6 +8,7 @@ class ResetButton extends StatelessWidget {
 
   void _onResetPress(BuildContext context) {
     final model = Provider.of<TimerModel>(context, listen: false);
+
     if (model.isRunning || model.isResting) {
       showDialog<String>(
         context: context,
@@ -31,10 +32,9 @@ class ResetButton extends StatelessWidget {
             ),
           ],
         ),
-
-        //TODO: Timer Pause when press reset
       );
     }
+    model.onToggleStartPause();
   }
 
   @override

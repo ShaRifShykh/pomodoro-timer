@@ -3,9 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
+// enum PomodoroMode {
+//   disabled,
+//   working,
+//   resting
+
+// }
+
 class TimerModel extends ChangeNotifier {
   static const _defaultWorkSeconds = 3;
-  static const _defaultRestSeconds = 3;
+  static const _defaultRestSeconds = 2;
   static const _defaultPomodoroCount = 0;
   int _remainWorkSeconds = _defaultWorkSeconds;
   int _remainRestSeconds = _defaultRestSeconds;
@@ -71,11 +78,18 @@ class TimerModel extends ChangeNotifier {
 
   void onToggleStartPause() {
     if (_isRunning) {
-      _timer.cancel();
       _isRunning = false;
+      _timer.cancel();
+    } else if (_isResting) {
+      _isResting = false;
+      _timer.cancel();
     } else {
+      if (!_isRunning) {
+        _isRunning = true;
+      } else if (!_isResting) {
+        _isResting = true;
+      }
       _timer = Timer.periodic(const Duration(seconds: 1), _onTick);
-      _isRunning = true;
     }
     notifyListeners();
   }
