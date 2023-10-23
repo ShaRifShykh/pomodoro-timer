@@ -42,9 +42,6 @@ class HomePage extends StatelessWidget {
       ),
       body: Consumer<TimerModel>(
         builder: (context, timer, child) {
-          print(
-              "${timer.isResting} ${timer.remainRestSeconds} ${timer.remainWorkSeconds}");
-
           return SafeArea(
             child: Column(
               children: [
@@ -57,9 +54,7 @@ class HomePage extends StatelessWidget {
 
                   // Test this one after fixing that bug
                   //TODO: After 15 pomodoro count => The time is getting faster and faster
-                  timeFormat(timer.isResting
-                      ? timer.remainRestSeconds
-                      : timer.remainWorkSeconds),
+                  timeFormat(timer.timerSeconds),
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: Sizes.size96,
@@ -67,7 +62,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Pomodoro Count: ${pomodoroCountFormat(timer.totalPomodoroCount)}",
+                  "Pomodoro Count: ${pomodoroCountFormat(timer.pomodoroCount)}",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: Sizes.size36,
@@ -81,7 +76,7 @@ class HomePage extends StatelessWidget {
                       iconSize: Sizes.size96 + Sizes.size24,
                       color: Theme.of(context).colorScheme.primary,
                       onPressed: model.onToggleStartPause,
-                      icon: Icon(timer.isRunning || timer.isResting
+                      icon: const Icon(true
                           ? Icons.pause_circle_outline
                           : Icons.play_circle_outline),
                     ),

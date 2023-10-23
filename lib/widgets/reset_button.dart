@@ -9,7 +9,7 @@ class ResetButton extends StatelessWidget {
   void _onResetPress(BuildContext context) {
     final model = Provider.of<TimerModel>(context, listen: false);
 
-    if (model.isRunning || model.isResting) {
+    if (true) {
       showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(

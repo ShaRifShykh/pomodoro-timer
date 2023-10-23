@@ -3,38 +3,27 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
-// enum PomodoroMode {
-//   disabled,
-//   working,
-//   resting
-
-// }
+enum PomodoroMode { working, resting }
 
 class TimerModel extends ChangeNotifier {
-  static const _defaultWorkSeconds = 3;
-  static const _defaultRestSeconds = 2;
+  static const _defaultWorkSeconds = 1500;
+  static const _defaultRestSeconds = 300;
   static const _defaultPomodoroCount = 0;
-  int _remainWorkSeconds = _defaultWorkSeconds;
-  int _remainRestSeconds = _defaultRestSeconds;
-  int _totalPomodoroCount = _defaultPomodoroCount;
-  bool _isRunning = false;
-  bool _isResting = false;
+  late int _timerSeconds;
+  late int _pomodoroCount;
   late Timer _timer;
+  late bool _isRunning;
+  late PomodoroMode _status;
 
-  // Getters and Setters
+  PomodoroMode get status => _status;
   bool get isRunning => _isRunning;
-  bool get isResting => _isResting;
-  int get totalPomodoroCount => _totalPomodoroCount;
-  int get remainWorkSeconds => _remainWorkSeconds;
-  set remainWorkSeconds(int workSecond) {
-    _remainWorkSeconds = workSecond;
-    notifyListeners();
-  }
+  int get pomodoroCount => _pomodoroCount;
+  int get timerSeconds => _timerSeconds;
 
-  int get remainRestSeconds => _remainRestSeconds;
-  set remainRestSeconds(int restSecond) {
-    _remainRestSeconds = restSecond;
-    notifyListeners();
+  TimerModel() {
+    _timerSeconds = _defaultWorkSeconds;
+    _pomodoroCount = _defaultPomodoroCount;
+    _timer = Timer.periodic(const Duration(seconds: 1), _onTick);
   }
 
   final player = AudioPlayer();
@@ -49,46 +38,31 @@ class TimerModel extends ChangeNotifier {
     player.play();
   }
 
-  // Might need to change to optimize
   void _onTick(Timer timer) {
-    if (_remainWorkSeconds == 0) {
-      if (_isRunning) {
-        _isRunning = false;
+    if (_timerSeconds == 0 && !_isRunning) {
+      if (_status == PomodoroMode.working) {
+        _status = PomodoroMode.resting;
+        _pomodoroCount++;
+        _timerSeconds = _defaultRestSeconds;
         _workFinshAudio();
-      }
-
-      if (_remainRestSeconds != 0) {
-        if (!_isResting) {
-          _totalPomodoroCount = _totalPomodoroCount + 1;
-        }
-        _isResting = true;
-        _remainRestSeconds = _remainRestSeconds - 1;
-      } else {
+      } else if (_status == PomodoroMode.resting) {
+        _status = PomodoroMode.working;
+        _timerSeconds = _defaultWorkSeconds;
         _restFinshAudio();
-        _isResting = false;
-        _isRunning = true;
-        _remainWorkSeconds = _defaultWorkSeconds;
-        _remainRestSeconds = _defaultRestSeconds;
       }
     } else {
-      _remainWorkSeconds = _remainWorkSeconds - 1;
+      _timerSeconds--;
     }
     notifyListeners();
   }
 
   void onToggleStartPause() {
-    if (_isRunning) {
+    if (_isRunning &&
+        (_status == PomodoroMode.working || _status == PomodoroMode.resting)) {
       _isRunning = false;
       _timer.cancel();
-    } else if (_isResting) {
-      _isResting = false;
-      _timer.cancel();
     } else {
-      if (!_isRunning) {
-        _isRunning = true;
-      } else if (!_isResting) {
-        _isResting = true;
-      }
+      _isRunning = true;
       _timer = Timer.periodic(const Duration(seconds: 1), _onTick);
     }
     notifyListeners();
@@ -100,10 +74,13 @@ class TimerModel extends ChangeNotifier {
       _isRunning = false;
     }
 
-    _isResting = false;
-    _remainWorkSeconds = _defaultWorkSeconds;
-    _remainRestSeconds = _defaultRestSeconds;
-    _totalPomodoroCount = _defaultPomodoroCount;
+    if (_status == PomodoroMode.working) {
+      _timerSeconds = _defaultWorkSeconds;
+    } else if (_status == PomodoroMode.resting) {
+      _timerSeconds = _defaultRestSeconds;
+    }
+
+    _pomodoroCount = _defaultPomodoroCount;
     notifyListeners();
   }
 }
