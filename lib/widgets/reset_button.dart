@@ -9,32 +9,33 @@ class ResetButton extends StatelessWidget {
   void _onResetPress(BuildContext context) {
     final model = Provider.of<TimerModel>(context, listen: false);
 
-    if (true) {
-      showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text(
-            'Are you sure you want to reset?',
-            textAlign: TextAlign.center,
-            style: TextStyle(),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                context.read<TimerModel>().onResetPressed();
-                Navigator.pop(context, 'OK');
-              },
-              child: const Text('OK'),
-            ),
-          ],
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text(
+          'Are you sure you want to reset?',
+          textAlign: TextAlign.center,
+          style: TextStyle(),
         ),
-      );
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              context.read<TimerModel>().onResetPressed();
+              Navigator.pop(context, 'OK');
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+
+    if (model.isRunning) {
+      model.onToggleStartPause();
     }
-    model.onToggleStartPause();
   }
 
   @override

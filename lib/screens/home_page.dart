@@ -42,18 +42,11 @@ class HomePage extends StatelessWidget {
       ),
       body: Consumer<TimerModel>(
         builder: (context, timer, child) {
+          print("${timer.timerSeconds}");
           return SafeArea(
             child: Column(
               children: [
                 Text(
-                  // Bug Part here => When press pause while resting
-                  // it shows the isResting goes false, so the timeformat display
-                  // timer.remainWorkSeconds, which is currently 0
-                  // Maybe I can add a bool state that the timer is onActive or not.
-                  // TODO: Timer Bug!
-
-                  // Test this one after fixing that bug
-                  //TODO: After 15 pomodoro count => The time is getting faster and faster
                   timeFormat(timer.timerSeconds),
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
@@ -76,7 +69,7 @@ class HomePage extends StatelessWidget {
                       iconSize: Sizes.size96 + Sizes.size24,
                       color: Theme.of(context).colorScheme.primary,
                       onPressed: model.onToggleStartPause,
-                      icon: const Icon(true
+                      icon: Icon(timer.isRunning
                           ? Icons.pause_circle_outline
                           : Icons.play_circle_outline),
                     ),

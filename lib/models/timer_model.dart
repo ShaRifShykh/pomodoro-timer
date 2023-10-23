@@ -6,8 +6,8 @@ import 'package:just_audio/just_audio.dart';
 enum PomodoroMode { working, resting }
 
 class TimerModel extends ChangeNotifier {
-  static const _defaultWorkSeconds = 1500;
-  static const _defaultRestSeconds = 300;
+  static const _defaultWorkSeconds = 10;
+  static const _defaultRestSeconds = 4;
   static const _defaultPomodoroCount = 0;
   late int _timerSeconds;
   late int _pomodoroCount;
@@ -21,9 +21,10 @@ class TimerModel extends ChangeNotifier {
   int get timerSeconds => _timerSeconds;
 
   TimerModel() {
+    _isRunning = false;
+    _status = PomodoroMode.working;
     _timerSeconds = _defaultWorkSeconds;
     _pomodoroCount = _defaultPomodoroCount;
-    _timer = Timer.periodic(const Duration(seconds: 1), _onTick);
   }
 
   final player = AudioPlayer();
@@ -39,7 +40,7 @@ class TimerModel extends ChangeNotifier {
   }
 
   void _onTick(Timer timer) {
-    if (_timerSeconds == 0 && !_isRunning) {
+    if (_timerSeconds == 0 && _isRunning) {
       if (_status == PomodoroMode.working) {
         _status = PomodoroMode.resting;
         _pomodoroCount++;
@@ -70,17 +71,15 @@ class TimerModel extends ChangeNotifier {
 
   void onResetPressed() {
     if (_isRunning) {
-      _timer.cancel();
-      _isRunning = false;
+      onToggleStartPause();
     }
 
-    if (_status == PomodoroMode.working) {
-      _timerSeconds = _defaultWorkSeconds;
-    } else if (_status == PomodoroMode.resting) {
-      _timerSeconds = _defaultRestSeconds;
-    }
+    _isRunning = false;
 
+    _timerSeconds = _defaultWorkSeconds;
+    _status = PomodoroMode.working;
     _pomodoroCount = _defaultPomodoroCount;
+
     notifyListeners();
   }
 }
