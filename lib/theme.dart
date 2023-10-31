@@ -30,8 +30,8 @@ class ThemeClass {
       onError: Color(0xFFF32424),
       background: Color(0xFF202020),
       onBackground: Color(0xFF505050),
-      surface: Color(0xFF54B435),
-      onSurface: Color(0xFF54B435),
+      surface: Color(0xFFF1F2F3),
+      onSurface: Color(0xFFF1F2F3),
     ),
   );
 }
