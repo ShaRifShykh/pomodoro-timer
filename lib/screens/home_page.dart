@@ -42,7 +42,6 @@ class HomePage extends StatelessWidget {
       ),
       body: Consumer<TimerModel>(
         builder: (context, timer, child) {
-          print("${timer.timerSeconds}");
           return SafeArea(
             child: Column(
               children: [

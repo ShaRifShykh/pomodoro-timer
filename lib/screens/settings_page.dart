@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro/models/timer_model.dart';
+import 'package:pomodoro/widgets/time_setting.dart';
+import 'package:provider/provider.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});
@@ -16,29 +19,23 @@ class SettingPage extends StatelessWidget {
           ),
         ),
       ),
-      body: SafeArea(
-        child: ListView(
-          children: [
-            // ADD Timer Setting
-            SwitchListTile.adaptive(
-              value: false,
-              onChanged: (value) {},
-              title: const Text("Setting One"),
-              subtitle: const Text("Setting subtitle one"),
+      body: Consumer<TimerModel>(
+        builder: (context, value, child) {
+          return SafeArea(
+            child: ListView(
+              children: const [
+                TimeSetter(
+                    title: "Update work time.", status: PomodoroMode.working),
+                TimeSetter(
+                    title: "Update break time.", status: PomodoroMode.resting),
+                AboutListTile(
+                  applicationVersion: "1.0",
+                  applicationLegalese: "Don't copy me.",
+                ),
+              ],
             ),
-            CheckboxListTile(
-              activeColor: Colors.black,
-              value: false,
-              onChanged: (value) {},
-              title: const Text("Check Mark List"),
-              subtitle: const Text("Check Mark List Subtitle"),
-            ),
-            const AboutListTile(
-              applicationVersion: "1.0",
-              applicationLegalese: "Don't copy me.",
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
