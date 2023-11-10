@@ -49,7 +49,8 @@ class HomePage extends StatelessWidget {
                   timeFormat(timer.timerSeconds),
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
-                    fontSize: Sizes.size96,
+                    fontSize:
+                        timer.timerSeconds > 3599 ? Sizes.size80 : Sizes.size96,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

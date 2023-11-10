@@ -53,12 +53,7 @@ class TimerModel extends ChangeNotifier {
       _restSeconds = time;
     }
 
-    _isRunning = false;
-
-    _timerSeconds = _workSeonds;
-    _status = PomodoroMode.working;
-    _pomodoroCount = _defaultPomodoroCount;
-
+    onResetPressed();
     notifyListeners();
   }
 
