@@ -4,15 +4,14 @@
 
 <div>
 <div style="display: flex;">
-<img style="margin-right: 5px;" width="240" height="500" src="https://github.com/JongminChoi98/pomodoro-timer/assets/138505370/f6924779-3497-4d05-af4d-75272ac797ea">
-<img style="margin-right: 5px;" width="240" height="500" src="https://github.com/JongminChoi98/pomodoro-timer/assets/138505370/03b62f41-cdaa-43ef-ba0c-624830a7ae01">
+<img style="margin-right: 5px;" width="240" height="500" src="https://github.com/JongminChoi98/pomodoro-timer/assets/138505370/fa90b4ed-2284-4cdd-9bab-7581c926fed4">
+<img style="margin-right: 5px;" width="240" height="500" src="https://github.com/JongminChoi98/pomodoro-timer/assets/138505370/720fe14a-96a8-4576-9aaf-61e248692050">
 </div>
 
 <br>
 
 <div>
 <div style="display: flex;">
-<img style="margin-right: 5px;" width="240" height="500" src="https://github.com/JongminChoi98/pomodoro-timer/assets/138505370/6793a328-dedf-4a16-95d8-cab90fa768d2">
-<img style="margin-right: 5px;" width="240" height="500" src="https://github.com/JongminChoi98/pomodoro-timer/assets/138505370/3a76041e-758e-4275-a960-8902415c3129">
+<img style="margin-right: 5px;" width="240" height="500" src="https://github.com/JongminChoi98/pomodoro-timer/assets/138505370/8b9de169-1b2d-40de-a480-43905ce50847">
+<img style="margin-right: 5px;" width="240" height="500" src="https://github.com/JongminChoi98/pomodoro-timer/assets/138505370/99d17522-5289-4b1c-a138-d1e416b237dc">
 </div>
-
