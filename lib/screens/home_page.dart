@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pomodoro/constants/sizes.dart';
 import 'package:pomodoro/models/timer_model.dart';
 import 'package:pomodoro/screens/settings_page.dart';
@@ -20,64 +22,106 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
         actions: [
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const SettingPage(),
-                    ),
-                  );
-                },
-                child: Icon(
-                  Icons.settings,
-                  color: Theme.of(context).colorScheme.primary,
-                  size: Sizes.size32,
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SettingPage(),
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    Icons.settings,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: Sizes.size32,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           )
         ],
       ),
       body: Consumer<TimerModel>(
         builder: (context, timer, child) {
-          return SafeArea(
-            child: Column(
-              children: [
-                Text(
-                  timeFormat(timer.timerSeconds),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize:
-                        timer.timerSeconds > 3599 ? Sizes.size80 : Sizes.size96,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Text(
-                  "Pomodoro Count: ${pomodoroCountFormat(timer.pomodoroCount)}",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: Sizes.size36,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      iconSize: Sizes.size96 + Sizes.size24,
+          return Column(
+            children: [
+              Flexible(
+                flex: 1,
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    timeFormat(timer.timerSeconds),
+                    style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
-                      onPressed: model.onToggleStartPause,
-                      icon: Icon(timer.isRunning
-                          ? Icons.pause_circle_outline
-                          : Icons.play_circle_outline),
+                      fontSize: timer.timerSeconds > 3599
+                          ? Sizes.size80
+                          : Sizes.size96,
+                      fontWeight: FontWeight.w600,
                     ),
-                    const ResetButton()
-                  ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+              Flexible(
+                flex: 3,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: Sizes.size32),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          iconSize: Sizes.size96 + Sizes.size24,
+                          color: Theme.of(context).colorScheme.primary,
+                          onPressed: model.onToggleStartPause,
+                          icon: Icon(timer.isRunning
+                              ? Icons.pause_circle_outline
+                              : Icons.play_circle_outline),
+                        ),
+                        const ResetButton()
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(50),
+                      )),
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Pomodoros",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize: Sizes.size20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        ' ${pomodoroCountFormat(timer.pomodoroCount)}',
+                        style: TextStyle(
+                          fontSize: 58,
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           );
         },
       ),
