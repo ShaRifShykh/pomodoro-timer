@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:pomodoro/constants/sizes.dart';
 import 'package:pomodoro/models/timer_model.dart';
 import 'package:pomodoro/screens/settings_page.dart';

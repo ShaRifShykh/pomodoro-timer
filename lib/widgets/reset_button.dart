@@ -15,7 +15,6 @@ class ResetButton extends StatelessWidget {
         title: const Text(
           'Are you sure you want to reset?',
           textAlign: TextAlign.center,
-          style: TextStyle(),
         ),
         actions: <Widget>[
           TextButton(
